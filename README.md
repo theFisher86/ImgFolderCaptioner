@@ -2,7 +2,7 @@
 
 This simple powershell script will intelligently help you caption images for building a LoRA. Built specifically for the z-Image Turbo model but it could be used with other models.
 
-This was built for use with Nano-GPT subscriptions but you could easily modify the script to use pretty much any other API with minimal changes.
+This was built for use with [Nano-GPT subscriptions](https://nano-gpt.com/invite/FJriiikf) but you could easily modify the script to use pretty much any other API with minimal changes.
 
 This doesn't just caption the images but attempts to define the character based on a few of the images in the directory and then uses that description and a wordbank to build the captions. Hopefully this will build cohesive character LoRAs.
 
