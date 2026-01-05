@@ -167,8 +167,8 @@ function Generate-CharacterWordbank {
     
     Write-Host "Initial text content size: $([math]::Round($payloadSize / 1MB, 2)) MB"
     
-    # Add character images to content (stop before reaching 4.3MB)
-    $maxPayloadSize = 4.3MB
+    # Add character images to content (stop before reaching 3.9MB)
+    $maxPayloadSize = 3.9MB
     $imagesIncluded = 0
     
     foreach ($file in $characterFiles) {
