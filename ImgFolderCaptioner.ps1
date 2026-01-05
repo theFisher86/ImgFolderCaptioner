@@ -7,6 +7,8 @@
 # Max image size in bytes (3.5MB)
 $maxSize = 3.5MB
 
+# Model to use (Qwen/Qwen3-VL-235B-A22B-Instruct or glm-4.6v)
+$model = "Qwen/Qwen3-VL-235B-A22B-Instruct"
 # Load the appropriate System.Drawing assembly based on PowerShell version
 if ($PSVersionTable.PSVersion.Major -ge 6) {
     Add-Type -AssemblyName System.Drawing.Common
@@ -167,8 +169,8 @@ function Generate-CharacterWordbank {
     
     Write-Host "Initial text content size: $([math]::Round($payloadSize / 1MB, 2)) MB"
     
-    # Add character images to content (stop before reaching 3.9MB)
-    $maxPayloadSize = 3.9MB
+    # Add character images to content (stop before reaching 4.3MB)
+    $maxPayloadSize = 3.98MB
     $imagesIncluded = 0
     
     foreach ($file in $characterFiles) {
@@ -208,7 +210,7 @@ function Generate-CharacterWordbank {
     
     # Build JSON payload
     $payload = @{
-        model = "glm-4.6v"
+        model = $model
         messages = @(
             @{
                 role = "user"
@@ -506,7 +508,7 @@ $imagesToProcess | ForEach-Object {
 
     # Build caption prompt with wordbank if available
     if ($characterTraits -ne "") {
-        $promptText = "Describe this image of $($triggerWord) accurately but succinctly. If this is just a simple portrait of $($triggerWord) then the caption should just say 'a portrait of $($triggerWord).' If the image is using a landscape aspect ratio use the phrase ""landscape portrait"" instead of just portrait. If there are specific features or elements in the picture with $($triggerWord) then you may mention those. For example: 'a photo of $($triggerWord) with a ponytail.' If the image contains a watermark mention that. For example 'a photo of $($triggerWord) with a watermark in the bottom right corner.' If $($triggerWord)'s face is not in the shot you may state that. For example: 'a photo of $($triggerWord)'s body without face.' Captions should be one short sentence and simple. Do not surround your caption with any ASCII markup or special tags. Try to use words from the following list to craft your caption whenever possible: $($characterTraits)"
+        $promptText = "Describe this image of $($triggerWord) accurately but succinctly. If this is just a simple portrait of $($triggerWord) then the caption should just say 'a portrait of $($triggerWord).' If the image is using a landscape aspect ratio use the phrase ""landscape portrait"" instead of just portrait. If there are specific features or elements in the picture with $($triggerWord) then you may mention those. For example: 'a photo of $($triggerWord) with a ponytail.' If the image contains a watermark mention that. For example 'a photo of $($triggerWord) with a watermark in the bottom right corner.' If $($triggerWord)'s face is not in the shot you may state that. For example: 'a photo of $($triggerWord)'s body without face.' Captions should be one short sentence and simple. Do not surround your caption with any ASCII markup or special tags. It is understood that $($triggerWord) is $($characterDescription) Try to use words from the following list to craft your caption whenever possible: $($characterTraits)"
     } else {
         # Fallback prompt without wordbank
         $promptText = "Describe this image of $($triggerWord) accurately but succinctly. If this is just a simple portrait of $($triggerWord) then the caption should just say 'a portrait of $($triggerWord).' If the image is using a landscape aspect ratio use the phrase ""landscape portrait"" instead of just portrait. If there are specific features or elements in the picture with $($triggerWord) then you may mention those. For example: 'a photo of $($triggerWord) with a ponytail.' If the image contains a watermark mention that. For example 'a photo of $($triggerWord) with a watermark in the bottom right corner.' If $($triggerWord)'s face is not in the shot you may state that. For example: 'a photo of $($triggerWord)'s body without face.' Captions should be one short sentence and simple. Do not surround your caption with any ASCII markup or special tags."
@@ -514,7 +516,7 @@ $imagesToProcess | ForEach-Object {
 
     # Build JSON payload
     $payload = @{
-        model = "glm-4.6v"
+        model = $model
         messages = @(
             @{
                 role = "user"
